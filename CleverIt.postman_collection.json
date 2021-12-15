@@ -1,0 +1,282 @@
+{
+	"info": {
+		"_postman_id": "641ff95e-1a5d-43f5-bb95-ad22360cdf8b",
+		"name": "CleverIt",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "QAA-01",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"var country=pm.request.headers.get('Country');\r",
+							"var city=pm.request.headers.get('City');\r",
+							"\r",
+							"if(country===\"Chile\"){\r",
+							"pm.test(\"relacion correcta \", () => {       \r",
+							"        pm.expect(country).to.be.eql(\"Chile\") && pm.expect(city).to.be.oneOf([\"Santiago\",\"Arica\",\"Chiloe\"]);\r",
+							"});\r",
+							"}\r",
+							"\r",
+							"else if(country===\"Argentina\"){\r",
+							"    pm.test(\"relacion correcta \",  () => { \r",
+							"        pm.expect(country).to.be.eql(\"Argentina\") && pm.expect(city).to.be.oneOf([\"BuenosAires\",\"SanJuan\"]);\r",
+							"        });\r",
+							"}else{\r",
+							"    pm.test(\"País y Ciudad Incorrectos\",  () => { \r",
+							"        pm.expect.fail(\"\");\r",
+							"        });\r",
+							"}\r",
+							"\r",
+							"\r",
+							"       \r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const moment = require('moment');\r",
+							"pm.globals.set(\"today\", moment().format(\"DD-MM-YYYY\"));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Country",
+						"value": "Chile",
+						"type": "text"
+					},
+					{
+						"key": "City",
+						"value": "Santiago",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"fechaDia\": \"{{today}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{cleverit-url}}",
+					"host": [
+						"{{cleverit-url}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Mock-ejemplo",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Country",
+								"value": "Chile",
+								"type": "text"
+							},
+							{
+								"key": "City",
+								"value": "Santiago",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fechaDia\": \"{{today}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{cleverit-url}}",
+							"host": [
+								"{{cleverit-url}}"
+							]
+						}
+					},
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"temperaturaActual\": \"19°\",\n    \"temperaturaDiaSiguiente\": \"20°\"\n}"
+				}
+			]
+		},
+		{
+			"name": "QAA-02-users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status de respuesta 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"el tiempo de respuesta es menor que 180ms\", () => {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(180);\r",
+							"});\r",
+							"\r",
+							"let jsonData = pm.response.json()\r",
+							"\r",
+							"pm.test('Email siempre contiene @', () => {\r",
+							"    _.each(jsonData, (item) => {\r",
+							"        pm.expect(item.email).to.include('@')\r",
+							"        \r",
+							"    })\r",
+							"});\r",
+							"\r",
+							"pm.test('Tamaño del array de respuesta es ' + data.length, () => {\r",
+							"    pm.expect(jsonData.length).to.equal(10);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://jsonplaceholder.typicode.com/users",
+					"protocol": "https",
+					"host": [
+						"jsonplaceholder",
+						"typicode",
+						"com"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "QAA-02-todos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status de respuesta 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"el tiempo de respuesta es menor que 180ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(180);\r",
+							"});\r",
+							"\r",
+							"let jsonData = pm.response.json()\r",
+							"pm.test('campo completed no es nulo', () => {\r",
+							"    _.each(jsonData, (item) => {\r",
+							"        pm.expect(item.title).not.eq(null);\r",
+							"        \r",
+							"    })\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://jsonplaceholder.typicode.com/todos",
+					"protocol": "https",
+					"host": [
+						"jsonplaceholder",
+						"typicode",
+						"com"
+					],
+					"path": [
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "QAA-02-photos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status de respuesta 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"el tiempo de respuesta es menor que 1000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"\r",
+							"let jsonData = pm.response.json()\r",
+							"pm.test('campo url empieza con http', () => {\r",
+							"    _.each(jsonData, (item) => {\r",
+							"        pm.expect(jsonData.url).not.eq(null);\r",
+							"        pm.expect(item.url.startsWith(\"http\")).to.be.true      \r",
+							"    })\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://jsonplaceholder.typicode.com/photos",
+					"protocol": "https",
+					"host": [
+						"jsonplaceholder",
+						"typicode",
+						"com"
+					],
+					"path": [
+						"photos"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

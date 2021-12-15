@@ -1,0 +1,13 @@
+Para el QAA-01 se ha creado un mockserver para simular un
+servicio web, este servicio puede ser de tipo REST,SOAP,etc.
+Se ha elegido los casos de comparar paises y si todo es correcto,
+revisar si le pertenece dicha ciudad.
+
+Para el QAA-02 se ha elegido casos basicos como es el:
+-validar el status de salida.
+-validar el tiempo de respuesta.
+-valirdar el formato de un email.
+-validar que se empieze con una palabra en especifico.
+-validar el tamaño del array de salida.
+
+estos para 3 endpoints diferentes.
