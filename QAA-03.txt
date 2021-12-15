@@ -11,3 +11,11 @@ Para el QAA-02 se ha elegido casos basicos como es el:
 -validar el tamaño del array de salida.
 
 estos para 3 endpoints diferentes.
+
+
+
+puntos importantes 
+Al momento de validar un servicio /POST es que se tiene que tener un servicio adicional de borrado, para poder reutilizar esta ejecucion.
+Es muy util orquestar servicios y probarlos por postman, eclipse,etc; ya que nos permiten ahorrarnos el tiempo de esperar de cargar microfronts o fuentes que vienen desde internet.
+Esta colleccion se puede subir a un CI como jenkins, para que cada vez que detecte un cambio en un repositorio de servicios, automaticamente ejecute y emita un reporte,
+este reporte puede ser enviando a correos configurados en el mismo CI.
